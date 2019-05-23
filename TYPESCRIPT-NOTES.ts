@@ -1,3 +1,5 @@
+import { preserveWhitespacesDefault } from "@angular/compiler";
+
 ////////////////////////// TYPESCRIPT NOTES /////////////
 
 
@@ -77,3 +79,110 @@ arr.push(false)
         
     }
  }
+
+ /////////////////////////////////// Object orriented typescript ////////////////////////////////////////
+
+
+ class Emoji {
+   
+
+     constructor(public icon){       // when you declare the parameter in the constructor as public then it's 
+                                    // a property that will be acessable on the class and all the instances of the class. 
+         this.icon = icon;
+     }
+ }
+
+ let emoji = new Emoji('sun')
+ emoji.icon // returns sun 
+
+
+
+ class privateEmoji {
+
+    private _preview;   
+
+    constructor(private _icon) {   // this would make the property unacessable from the outside unless we defined a 
+        get icon() {                // getter to read it and OR a setter to allow change of the value 
+            return this._icon; 
+        }
+        
+        get preview() {
+            return this._preview
+        }
+    }
+
+ }
+
+
+ /////////// Static methods make the property stay on the class it'self and is not re-created on the instances.
+
+ class Emoji {
+
+     static addOneTo(Val){
+        return 1 + Val
+     }
+
+ }
+
+Emoji.addOneTo(2)  // the cool thing is that we get to use the emogi class its'self to run the function and 
+// it can be used constructively for good naming semantics. // the static method can't be called from the class instances 
+// it has to be called from the main class. 
+
+
+////// creating inheritance with typescript 
+
+class Human {
+    constructor (public name) {}
+   
+    sayHi(){
+        return 'hello, this is {name}'
+    }
+  
+}
+
+const patrick = new Human('patrick')
+console.log( patrick.sayHi() ) // hello, this is patrick 
+
+///// we can extend the human class onto our new class
+// this creates inheritance
+// using the extends keyword we can create inheritance
+// in this case, all of human's properties are now acessable fronm the superhuman class. :) 
+class superHuman extends Human  {        
+   
+    heroName; 
+
+    constructor(name){
+        super(name);  // this super(name) will execute the code from the parent class. 
+        this.heroName = 'HERO ${name}';
+    }
+
+    superPower(){
+        return '${this.heroName} props treys'
+    }
+}
+
+const steph = new SuperHuman('steph jeffries');
+console.log(steph.sayhi()) // returns hello, sydney jeffries
+// this is b/c we extended the human class
+console.log(steph.superpower()) // returns steph jeffries props treys 
+// the instance class has acess to the prototype classes' methods. 
+
+///////////////// typescript and composition: 
+///////////// typescript gives a nice class based interface for mixin's
+
+class SuperHero implements CanSayHi, HasSuperPower {   // the implements keyword allows us to add the mixin pievces into 
+                                                        // our class 
+
+    constructor(public name) {
+
+    }
+
+    sayHi: () => string;        // this is how we add typescript  check on the return values of these methods
+    superpower: () => string;
+
+}
+
+applyMixins(SuperHero, [canSayHi, HasSuperPower])  //requirement to combine mixin pieces into the class
+SuperHero.canSayHi('typescript'); //returns hello, typescript
+
+
